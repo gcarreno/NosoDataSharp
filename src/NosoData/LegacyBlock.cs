@@ -55,9 +55,95 @@ namespace Noso.Data.Legacy
             {
                 using (BinaryReader brBlock = new BinaryReader(File.Open(AFilename, FileMode.Open)))
                 {
+                    int transactions;
+                    int stringSize;
+                    char[] stringChars;
+
                     this.Number = brBlock.ReadInt64();
+                    this.TimeStart = brBlock.ReadInt64();
+                    this.TimeEnd = brBlock.ReadInt64();
+                    this.TimeTotal = brBlock.ReadInt32();
+                    this.TimeLast20 = brBlock.ReadInt32();
+                    
+                    transactions = brBlock.ReadInt32();
+
+                    this.Difficulty = brBlock.ReadInt32();
+
+                    stringSize = brBlock.ReadByte();
+                    if (stringSize == 0)
+                    {
+                        this.TargetHash = "";
+                        stringChars = brBlock.ReadChars(32);
+                    }
+                    else
+                    {
+                        stringChars = brBlock.ReadChars(32);
+                        this.TargetHash = "";
+                        for (int index = 0; index < stringSize; index++)
+                        {
+                            this.TargetHash += stringChars[index];
+                        }
+                    }
+                    
+                    stringSize = brBlock.ReadByte();
+                    if (stringSize == 0)
+                    {
+                        this.Solution = "";
+                        stringChars = brBlock.ReadChars(200);
+                    }
+                    else
+                    {
+                        stringChars = brBlock.ReadChars(200);
+                        this.Solution = "";
+                        for (int index = 0; index < stringSize; index++)
+                        {
+                            this.Solution += stringChars[index];
+                        }
+                    }
+                    
+                    stringSize = brBlock.ReadByte();
+                    if (stringSize == 0)
+                    {
+                        this.LastBlockHash = "";
+                        stringChars = brBlock.ReadChars(32);
+                    }
+                    else
+                    {
+                        stringChars = brBlock.ReadChars(32);
+                        this.LastBlockHash = "";
+                        for (int index = 0; index < stringSize; index++)
+                        {
+                            this.LastBlockHash += stringChars[index];
+                        }
+                    }
+                    
+                    this.NextBlockDifficulty = brBlock.ReadInt32();
+                    
+                    stringSize = brBlock.ReadByte();
+                    if (stringSize == 0)
+                    {
+                        this.Miner = "";
+                        stringChars = brBlock.ReadChars(40);
+                    }
+                    else
+                    {
+                        stringChars = brBlock.ReadChars(40);
+                        this.Miner = "";
+                        for (int index = 0; index < stringSize; index++)
+                        {
+                            this.Miner += stringChars[index];
+                        }
+                    }
+                    
+                    this.Fee = brBlock.ReadInt64();
+                    this.Reward = brBlock.ReadInt64();
                 }
             }
+            else
+            {
+                throw new FileNotFoundException($"File {AFilename} not found.");
+            }
+
         }
     }
 }

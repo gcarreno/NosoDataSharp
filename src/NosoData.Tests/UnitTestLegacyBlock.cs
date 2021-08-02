@@ -26,7 +26,7 @@ namespace Noso.Data.Tests
 
         private void CheckFieldsBlockZero(LegacyBlock block)
         {
-            Assert.Equal(-1, block.Number);
+            Assert.Equal(0, block.Number);
             //Assert.Equal("", block.Hash);
             Assert.Equal(1531896783, block.TimeStart);
             Assert.Equal(1615132800, block.TimeEnd);
@@ -52,7 +52,7 @@ namespace Noso.Data.Tests
         [Fact]
         public void TestBlockZero()
         {
-            var block = new LegacyBlock(@"../test-data/NOSODATA/BLOCKS/0.blk");
+            var block = new LegacyBlock(@"../../../../../test-data/NOSODATA/BLOCKS/0.blk");
             CheckFieldsBlockZero(block);
         }
     }
