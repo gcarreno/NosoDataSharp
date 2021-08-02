@@ -9,7 +9,7 @@ namespace Noso.Data.Tests
         private void CheckFieldsCreate(LegacyBlock block)
         {
             Assert.Equal(-1, block.Number);
-            //Assert.Equal("", block.Hash);
+            Assert.Equal("", block.Hash);
             Assert.Equal(-1, block.TimeStart);
             Assert.Equal(-1, block.TimeEnd);
             Assert.Equal(-1, block.TimeTotal);
@@ -27,7 +27,7 @@ namespace Noso.Data.Tests
         private void CheckFieldsBlockZero(LegacyBlock block)
         {
             Assert.Equal(0, block.Number);
-            //Assert.Equal("", block.Hash);
+            Assert.Equal("4E8A4743AA6083F3833DDA1216FE3717", block.Hash);
             Assert.Equal(1531896783, block.TimeStart);
             Assert.Equal(1615132800, block.TimeEnd);
             Assert.Equal(83236017, block.TimeTotal);
