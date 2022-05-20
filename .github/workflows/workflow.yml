@@ -15,7 +15,6 @@ jobs:
     strategy:
       matrix:
         operating-system: [ ubuntu-latest, windows-latest, macos-latest ]
-        dotnet-version: [ '5.0.x', '6.0.x' ]
     steps:
     - name: Check out project
       uses: actions/checkout@v2
@@ -23,7 +22,7 @@ jobs:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v2.1.0
       with:
-        dotnet-version: ${{ matrix.dotnet-version }}
+        dotnet-version: 5.0.x
 
     - name: Build project
       run: dotnet build src
