@@ -1,0 +1,33 @@
+name: build-test
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ "*" ]
+    paths-ignore: [ "README.md" ]
+
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system: [ ubuntu-latest, windows-latest, macos-latest ]
+        dotnet-version: [ '3.1.x', '5.0.x' ]
+    steps:
+    - name: Check out project
+      uses: actions/checkout@v2
+
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v2.1.0
+      with:
+        dotnet-version: ${{ matrix.dotnet-version }}
+
+    - name: Build project
+      run: dotnet build src
+
+    - name: Test project
+      run: dotnet test src
+j
