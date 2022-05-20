@@ -25,31 +25,31 @@ namespace Noso.Data.Legacy
 
         public LegacyBlock()
         {
-            this.InitFields();
+            InitFields();
         }
 
         public LegacyBlock(string AFilename)
         {
-            this.InitFields();
-            this.doLoadFromFile(AFilename);
+            InitFields();
+            doLoadFromFile(AFilename);
         }
 
         private void InitFields()
         {
-            this.Number = -1;
-            this.hash = "";
-            this.TimeStart = -1;
-            this.TimeEnd = -1;
-            this.TimeTotal = -1;
-            this.TimeLast20 = -1;
-            this.Difficulty = -1;
-            this.TargetHash = "";
-            this.Solution = "";
-            this.LastBlockHash ="";
-            this.NextBlockDifficulty = -1;
-            this.Miner = "";
-            this.Fee = 0;
-            this.Reward = 0;
+            Number = -1;
+            hash = "";
+            TimeStart = -1;
+            TimeEnd = -1;
+            TimeTotal = -1;
+            TimeLast20 = -1;
+            Difficulty = -1;
+            TargetHash = "";
+            Solution = "";
+            LastBlockHash ="";
+            NextBlockDifficulty = -1;
+            Miner = "";
+            Fee = 0;
+            Reward = 0;
         }
 
         private void doCalculateHash()
@@ -60,7 +60,7 @@ namespace Noso.Data.Legacy
                 msBlock.Position = 0;
                 MD5 md5 = MD5.Create();
                 byte[] hashValue = md5.ComputeHash(msBlock);
-                this.hash = BitConverter.ToString(hashValue).Replace("-","").ToUpper();
+                hash = BitConverter.ToString(hashValue).Replace("-","").ToUpper();
             }
         }
 
@@ -87,80 +87,80 @@ namespace Noso.Data.Legacy
             int stringSize;
             char[] stringChars;
 
-            this.Number = brBlock.ReadInt64();
-            this.TimeStart = brBlock.ReadInt64();
-            this.TimeEnd = brBlock.ReadInt64();
-            this.TimeTotal = brBlock.ReadInt32();
-            this.TimeLast20 = brBlock.ReadInt32();
-            this.transactions = brBlock.ReadInt32();
-            this.Difficulty = brBlock.ReadInt32();
+            Number = brBlock.ReadInt64();
+            TimeStart = brBlock.ReadInt64();
+            TimeEnd = brBlock.ReadInt64();
+            TimeTotal = brBlock.ReadInt32();
+            TimeLast20 = brBlock.ReadInt32();
+            transactions = brBlock.ReadInt32();
+            Difficulty = brBlock.ReadInt32();
             // TargetHash String 32
             stringSize = brBlock.ReadByte();
             if (stringSize == 0)
             {
-                this.TargetHash = "";
+                TargetHash = "";
                 stringChars = brBlock.ReadChars(32);
             }
             else
             {
                 stringChars = brBlock.ReadChars(32);
-                this.TargetHash = "";
+                TargetHash = "";
                 for (int index = 0; index < stringSize; index++)
                 {
-                    this.TargetHash += stringChars[index];
+                    TargetHash += stringChars[index];
                 }
             }
             // Solution String 200
             stringSize = brBlock.ReadByte();
             if (stringSize == 0)
             {
-                this.Solution = "";
+                Solution = "";
                 stringChars = brBlock.ReadChars(200);
             }
             else
             {
                 stringChars = brBlock.ReadChars(200);
-                this.Solution = "";
+                Solution = "";
                 for (int index = 0; index < stringSize; index++)
                 {
-                    this.Solution += stringChars[index];
+                    Solution += stringChars[index];
                 }
             }
             // LastBlockHash String 32
             stringSize = brBlock.ReadByte();
             if (stringSize == 0)
             {
-                this.LastBlockHash = "";
+                LastBlockHash = "";
                 stringChars = brBlock.ReadChars(32);
             }
             else
             {
                 stringChars = brBlock.ReadChars(32);
-                this.LastBlockHash = "";
+                LastBlockHash = "";
                 for (int index = 0; index < stringSize; index++)
                 {
-                    this.LastBlockHash += stringChars[index];
+                    LastBlockHash += stringChars[index];
                 }
             }
-            this.NextBlockDifficulty = brBlock.ReadInt32();
+            NextBlockDifficulty = brBlock.ReadInt32();
             // Miner String 40
             stringSize = brBlock.ReadByte();
             if (stringSize == 0)
             {
-                this.Miner = "";
+                Miner = "";
                 stringChars = brBlock.ReadChars(40);
             }
             else
             {
                 stringChars = brBlock.ReadChars(40);
-                this.Miner = "";
+                Miner = "";
                 for (int index = 0; index < stringSize; index++)
                 {
-                    this.Miner += stringChars[index];
+                    Miner += stringChars[index];
                 }
             }
-            this.Fee = brBlock.ReadInt64();
-            this.Reward = brBlock.ReadInt64();
+            Fee = brBlock.ReadInt64();
+            Reward = brBlock.ReadInt64();
             doCalculateHash();
         }
 
@@ -168,7 +168,7 @@ namespace Noso.Data.Legacy
         {
             using (FileStream fsBlock = File.Open(AFilename, FileMode.OpenOrCreate))
             {
-                this.doSaveToStream(fsBlock);
+                doSaveToStream(fsBlock);
             }
 
         }
@@ -177,20 +177,20 @@ namespace Noso.Data.Legacy
         {
             BinaryWriter bwBlock = new BinaryWriter(AStream);
 
-            bwBlock.Write(this.Number);
-            bwBlock.Write(this.TimeStart);
-            bwBlock.Write(this.TimeEnd);
-            bwBlock.Write(this.TimeTotal);
-            bwBlock.Write(this.TimeLast20);
-            bwBlock.Write(this.transactions);
-            bwBlock.Write(this.Difficulty);
+            bwBlock.Write(Number);
+            bwBlock.Write(TimeStart);
+            bwBlock.Write(TimeEnd);
+            bwBlock.Write(TimeTotal);
+            bwBlock.Write(TimeLast20);
+            bwBlock.Write(transactions);
+            bwBlock.Write(Difficulty);
             // TargetHash String 32
-            bwBlock.Write((byte)this.TargetHash.Length);
+            bwBlock.Write((byte)TargetHash.Length);
             for (int index = 0; index < 32; index++)
             {
-                if (index < this.TargetHash.Length)
+                if (index < TargetHash.Length)
                 {
-                    bwBlock.Write(this.TargetHash[index]);
+                    bwBlock.Write(TargetHash[index]);
                 }
                 else
                 {
@@ -198,12 +198,12 @@ namespace Noso.Data.Legacy
                 }
             }
             // Solution String 200
-            bwBlock.Write((byte)this.Solution.Length);
+            bwBlock.Write((byte)Solution.Length);
             for (int index = 0; index < 200; index++)
             {
-                if (index < this.Solution.Length)
+                if (index < Solution.Length)
                 {
-                    bwBlock.Write(this.Solution[index]);
+                    bwBlock.Write(Solution[index]);
                 }
                 else
                 {
@@ -211,34 +211,34 @@ namespace Noso.Data.Legacy
                 }
             }
             // LastBlockHash String 32
-            bwBlock.Write((byte)this.LastBlockHash.Length);
+            bwBlock.Write((byte)LastBlockHash.Length);
             for (int index = 0; index < 32; index++)
             {
-                if (index < this.LastBlockHash.Length)
+                if (index < LastBlockHash.Length)
                 {
-                    bwBlock.Write(this.LastBlockHash[index]);
+                    bwBlock.Write(LastBlockHash[index]);
                 }
                 else
                 {
                     bwBlock.Write((byte)0);
                 }
             }
-            bwBlock.Write(this.NextBlockDifficulty);
+            bwBlock.Write(NextBlockDifficulty);
             // Miner String 40
-            bwBlock.Write((byte)this.Miner.Length);
+            bwBlock.Write((byte)Miner.Length);
             for (int index = 0; index < 40; index++)
             {
-                if (index < this.Miner.Length)
+                if (index < Miner.Length)
                 {
-                    bwBlock.Write(this.Miner[index]);
+                    bwBlock.Write(Miner[index]);
                 }
                 else
                 {
                     bwBlock.Write((byte)0);
                 }
             }
-            bwBlock.Write(this.Fee);
-            bwBlock.Write(this.Reward);
+            bwBlock.Write(Fee);
+            bwBlock.Write(Reward);
         }
     }
 }
