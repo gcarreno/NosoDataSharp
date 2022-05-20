@@ -30,4 +30,3 @@ jobs:
 
     - name: Test project
       run: dotnet test src
-j
